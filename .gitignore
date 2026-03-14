@@ -1,1 +1,5 @@
 node_modules/
+dist/
+tasks/
+ARCHITECTURE.md
+src/__tests__/

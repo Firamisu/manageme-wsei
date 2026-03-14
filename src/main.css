@@ -1,3 +1,94 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-app-primary: #6554c0;
+  --color-app-primary-dark: #403294;
+  --color-app-primary-hover: #8777d9;
+  --color-app-primary-subtle: #eae6ff;
+  --color-app-surface: #f4f5f7;
+  --color-app-surface-raised: #ebecf0;
+  --color-app-border: #dfe1e6;
+  --color-app-text: #172b4d;
+  --color-app-text-subtle: #5e6c84;
+  --color-app-success: #00875a;
+  --color-app-success-bg: #e3fcef;
+  --color-app-warning: #ff8b00;
+  --color-app-warning-bg: #fff0b3;
+  --color-app-danger: #de350b;
+  --color-app-danger-bg: #ffebe6;
+  --font-app: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-app);
+    color: var(--color-app-text);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .app-page-title {
+    @apply text-2xl font-normal text-app-text;
+  }
+
+  .app-page-description {
+    @apply mt-1 text-sm text-app-text-subtle;
+  }
+
+  .app-panel {
+    @apply rounded border border-app-border bg-white shadow-sm;
+  }
+
+  .app-panel-header {
+    @apply border-b border-app-border px-4 py-3 text-sm font-semibold text-app-text;
+  }
+
+  .app-btn-primary {
+    @apply rounded bg-app-primary px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-app-primary-hover disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .app-btn-subtle {
+    @apply rounded border border-app-border bg-white px-3 py-1.5 text-sm font-medium text-app-text transition-colors hover:bg-app-surface disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .app-input {
+    @apply w-full rounded border border-app-border bg-white px-3 py-2 text-sm text-app-text placeholder:text-app-text-subtle focus:border-app-primary focus:outline-none focus:ring-2 focus:ring-app-primary/20;
+  }
+
+  .app-badge {
+    @apply inline-flex items-center rounded px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .app-badge-success {
+    @apply bg-app-success-bg text-app-success;
+  }
+
+  .app-badge-info {
+    @apply bg-app-primary-subtle text-app-primary;
+  }
+
+  .app-badge-warning {
+    @apply bg-app-warning-bg text-app-warning;
+  }
+
+  .app-nav-item {
+    @apply flex items-center gap-2 rounded px-3 py-2 text-sm text-app-text transition-colors hover:bg-app-surface;
+  }
+
+  .app-nav-item-active {
+    @apply bg-app-primary-subtle font-medium text-app-primary;
+  }
+
+  .app-list-row {
+    @apply flex items-center gap-4 border-b border-app-border px-4 py-3 transition-colors last:border-b-0 hover:bg-app-surface;
+  }
+
+  .app-list-row-active {
+    @apply bg-app-primary-subtle/50 hover:bg-app-primary-subtle/70;
+  }
+
+  .app-project-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded text-sm font-bold text-white;
+  }
+}
