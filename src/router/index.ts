@@ -18,6 +18,16 @@ const router = createRouter({
       name: 'stories',
       component: () => import('../views/StoryListView.vue'),
     },
+    {
+      path: '/stories/:storyId/tasks',
+      name: 'story-tasks',
+      component: () => import('../views/StoryTasksView.vue'),
+    },
+    {
+      path: '/tasks/:id',
+      name: 'task-detail',
+      component: () => import('../views/TaskDetailView.vue'),
+    },
   ],
 })
 

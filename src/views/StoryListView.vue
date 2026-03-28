@@ -4,9 +4,11 @@ import { RouterLink } from 'vue-router'
 import type { Story, StoryPriority, StoryState } from '../types/Story'
 import { useProjectStore } from '../stores/project'
 import { useStoryStore } from '../stores/story'
+import { useUserStore, formatUserName } from '../stores/user'
 
 const projectStore = useProjectStore()
 const storyStore = useStoryStore()
+const userStore = useUserStore()
 
 const priorities: StoryPriority[] = ['low', 'medium', 'high']
 const states: StoryState[] = ['todo', 'doing', 'done']
@@ -23,14 +25,23 @@ const ownerId = ref('')
 
 onMounted(async () => {
   await projectStore.fetchProjects()
+  await userStore.fetchUsers()
   await storyStore.fetchStories()
+  setDefaultOwner()
 })
+
+function setDefaultOwner(): void {
+  if (!ownerId.value && userStore.users.length > 0) {
+    ownerId.value = userStore.users[0]!.id
+  }
+}
 
 watch(
   () => projectStore.activeProjectId,
   async () => {
     editingId.value = null
     resetForm()
+    await userStore.fetchUsers()
     await storyStore.fetchStories()
   },
 )
@@ -42,6 +53,7 @@ function resetForm(): void {
   state.value = 'todo'
   ownerId.value = ''
   formError.value = null
+  setDefaultOwner()
 }
 
 function startCreate(): void {
@@ -184,10 +196,16 @@ async function handleDelete(story: Story): Promise<void> {
                 {{ story.description }}
               </p>
               <p class="mt-1 text-xs text-app-text-subtle">
-                Owner: {{ story.ownerId }}
+                Owner: {{ userStore.getUserDisplayName(story.ownerId) }}
               </p>
             </div>
             <div class="flex shrink-0 gap-2">
+              <RouterLink
+                :to="`/stories/${story.id}/tasks`"
+                class="app-btn-subtle shrink-0"
+              >
+                Board
+              </RouterLink>
               <button type="button" class="app-btn-subtle" @click="startEdit(story)">
                 Edit
               </button>
@@ -250,12 +268,26 @@ async function handleDelete(story: Story): Promise<void> {
           </div>
           <div>
             <label class="mb-1 block text-xs font-semibold text-app-text-subtle">
-              Owner ID <span class="text-app-danger">*</span>
+              Owner <span class="text-app-danger">*</span>
             </label>
-            <input v-model="ownerId" type="text" required class="app-input" />
+            <select v-model="ownerId" required class="app-input" :disabled="userStore.users.length === 0">
+              <option v-if="userStore.users.length === 0" disabled value="">
+                No users available
+              </option>
+              <option v-else-if="!ownerId" disabled value="">
+                Select owner
+              </option>
+              <option v-for="user in userStore.users" :key="user.id" :value="user.id">
+                {{ formatUserName(user) }} ({{ user.role }})
+              </option>
+            </select>
           </div>
           <p v-if="formError" class="text-sm text-app-danger">{{ formError }}</p>
-          <button type="submit" :disabled="saving" class="app-btn-primary w-full">
+          <button
+            type="submit"
+            :disabled="saving || !ownerId || userStore.users.length === 0"
+            class="app-btn-primary w-full"
+          >
             {{ saving ? 'Saving…' : editingId ? 'Update' : 'Create' }}
           </button>
         </div>

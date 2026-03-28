@@ -2,12 +2,15 @@
 import { onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useProjectStore } from './stores/project'
+import { useUserStore, formatUserName } from './stores/user'
 
 const projectStore = useProjectStore()
+const userStore = useUserStore()
 const route = useRoute()
 
 onMounted(() => {
   projectStore.fetchProjects()
+  userStore.fetchUsers()
 })
 
 function navClass(path: string): string {
@@ -54,7 +57,16 @@ function navClass(path: string): string {
         </RouterLink>
       </nav>
 
-      <div class="ml-auto flex items-center gap-3 text-sm">
+      <div class="ml-auto flex items-center gap-4 text-sm">
+        <div v-if="userStore.currentUser" class="hidden items-center gap-2 sm:flex">
+          <span class="text-white/70">Logged in</span>
+          <span class="font-medium text-white">
+            {{ formatUserName(userStore.currentUser) }}
+          </span>
+          <span class="app-badge app-badge-info !normal-case !tracking-normal">
+            {{ userStore.currentUser.role }}
+          </span>
+        </div>
         <span class="hidden text-white/70 sm:inline">Active project</span>
         <span
           v-if="projectStore.activeProject"
