@@ -7,6 +7,7 @@
   --color-app-primary-subtle: #eae6ff;
   --color-app-surface: #f4f5f7;
   --color-app-surface-raised: #ebecf0;
+  --color-app-panel: #ffffff;
   --color-app-border: #dfe1e6;
   --color-app-text: #172b4d;
   --color-app-text-subtle: #5e6c84;
@@ -19,10 +20,58 @@
   --font-app: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
 }
 
+:root,
+:root.light {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --color-app-primary: #8f7ee8;
+    --color-app-primary-dark: #5243aa;
+    --color-app-primary-hover: #a899f0;
+    --color-app-primary-subtle: #2c2852;
+    --color-app-surface: #161a1d;
+    --color-app-surface-raised: #22272b;
+    --color-app-panel: #1d2125;
+    --color-app-border: #38414a;
+    --color-app-text: #b6c2cf;
+    --color-app-text-subtle: #8c9bab;
+    --color-app-success: #4bce97;
+    --color-app-success-bg: #1c3329;
+    --color-app-warning: #f5cd47;
+    --color-app-warning-bg: #3d3520;
+    --color-app-danger: #f87168;
+    --color-app-danger-bg: #3d1f1c;
+  }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --color-app-primary: #8f7ee8;
+  --color-app-primary-dark: #5243aa;
+  --color-app-primary-hover: #a899f0;
+  --color-app-primary-subtle: #2c2852;
+  --color-app-surface: #161a1d;
+  --color-app-surface-raised: #22272b;
+  --color-app-panel: #1d2125;
+  --color-app-border: #38414a;
+  --color-app-text: #b6c2cf;
+  --color-app-text-subtle: #8c9bab;
+  --color-app-success: #4bce97;
+  --color-app-success-bg: #1c3329;
+  --color-app-warning: #f5cd47;
+  --color-app-warning-bg: #3d3520;
+  --color-app-danger: #f87168;
+  --color-app-danger-bg: #3d1f1c;
+}
+
 @layer base {
   body {
     font-family: var(--font-app);
     color: var(--color-app-text);
+    background-color: var(--color-app-surface);
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -37,11 +86,11 @@
   }
 
   .app-panel {
-    @apply rounded border border-app-border bg-white shadow-sm;
+    @apply rounded border border-app-border bg-app-panel shadow-sm;
   }
 
   .app-panel-header {
-    @apply border-b border-app-border px-4 py-3 text-sm font-semibold text-app-text;
+    @apply border-b border-app-border bg-app-panel px-4 py-3 text-sm font-semibold text-app-text;
   }
 
   .app-btn-primary {
@@ -49,11 +98,11 @@
   }
 
   .app-btn-subtle {
-    @apply rounded border border-app-border bg-white px-3 py-1.5 text-sm font-medium text-app-text transition-colors hover:bg-app-surface disabled:cursor-not-allowed disabled:opacity-50;
+    @apply rounded border border-app-border bg-app-panel px-3 py-1.5 text-sm font-medium text-app-text transition-colors hover:bg-app-surface disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .app-input {
-    @apply w-full rounded border border-app-border bg-white px-3 py-2 text-sm text-app-text placeholder:text-app-text-subtle focus:border-app-primary focus:outline-none focus:ring-2 focus:ring-app-primary/20;
+    @apply w-full rounded border border-app-border bg-app-panel px-3 py-2 text-sm text-app-text placeholder:text-app-text-subtle focus:border-app-primary focus:outline-none focus:ring-2 focus:ring-app-primary/20;
   }
 
   .app-badge {
@@ -97,10 +146,14 @@
   }
 
   .app-kanban-column-header {
-    @apply flex items-center justify-between border-b border-app-border bg-white px-3 py-2.5 text-sm font-semibold text-app-text;
+    @apply flex items-center justify-between border-b border-app-border bg-app-panel px-3 py-2.5 text-sm font-semibold text-app-text;
   }
 
   .app-kanban-card {
-    @apply block rounded border border-app-border bg-white p-3 shadow-sm transition-colors hover:border-app-primary/40 hover:bg-app-primary-subtle/30;
+    @apply block rounded border border-app-border bg-app-panel p-3 shadow-sm transition-colors hover:border-app-primary/40 hover:bg-app-primary-subtle/30;
+  }
+
+  .app-theme-toggle {
+    @apply flex h-8 w-8 items-center justify-center rounded text-white/85 transition-colors hover:bg-white/10 hover:text-white;
   }
 }

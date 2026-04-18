@@ -2,10 +2,12 @@
 import { onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useProjectStore } from './stores/project'
+import { useThemeStore } from './stores/theme'
 import { useUserStore, formatUserName } from './stores/user'
 
 const projectStore = useProjectStore()
 const userStore = useUserStore()
+const themeStore = useThemeStore()
 const route = useRoute()
 
 onMounted(() => {
@@ -58,6 +60,42 @@ function navClass(path: string): string {
       </nav>
 
       <div class="ml-auto flex items-center gap-4 text-sm">
+        <button
+          type="button"
+          class="app-theme-toggle"
+          :aria-label="themeStore.isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+          :title="themeStore.isDark ? 'Light mode' : 'Dark mode'"
+          @click="themeStore.toggleTheme()"
+        >
+          <svg
+            v-if="themeStore.isDark"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <svg
+            v-else
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </button>
         <div v-if="userStore.currentUser" class="hidden items-center gap-2 sm:flex">
           <span class="text-white/70">Logged in</span>
           <span class="font-medium text-white">
@@ -85,7 +123,7 @@ function navClass(path: string): string {
     </header>
 
     <div class="flex flex-1">
-      <aside class="hidden w-56 shrink-0 border-r border-app-border bg-white md:block">
+      <aside class="hidden w-56 shrink-0 border-r border-app-border bg-app-panel md:block">
         <nav class="p-3">
           <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-app-text-subtle">
             Menu
