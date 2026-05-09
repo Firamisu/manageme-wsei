@@ -12,6 +12,7 @@ import type { IStoryRepository } from '../repositories/IStoryRepository'
 import { LocalStorageStoryRepository } from '../repositories/LocalStorageStoryRepository'
 import type { IUserRepository } from '../repositories/IUserRepository'
 import { MockUserRepository } from '../repositories/MockUserRepository'
+import { notificationService } from './NotificationService'
 
 const PRIORITIES: TaskPriority[] = ['low', 'medium', 'high']
 const STATES: TaskState[] = ['todo', 'doing', 'done']
@@ -40,10 +41,12 @@ export class TaskService {
 
     await this.ensureStoryExists(input.storyId)
 
-    return this.repository.create({
+    const task = await this.repository.create({
       ...input,
       state: 'todo',
     })
+    await notificationService.notifyTaskCreated(task)
+    return task
   }
 
   async getAllTasks(): Promise<Task[]> {
@@ -97,9 +100,11 @@ export class TaskService {
     const normalized = this.normalizeTaskForState(merged)
     await this.validateStateRules(normalized)
 
+    const previousState = existing.state
     const patch = this.toUpdatePatch(existing, normalized, input)
     const updated = await this.repository.update(id, patch)
     if (updated) {
+      await notificationService.notifyTaskStatusChanged(updated, previousState)
       await this.syncStoryStateIfAllTasksDone(updated.storyId)
     }
     return updated
@@ -112,6 +117,7 @@ export class TaskService {
     const existing = await this.repository.getById(id)
     const deleted = await this.repository.delete(id)
     if (deleted && existing) {
+      await notificationService.notifyTaskRemoved(existing)
       await this.syncStoryStateIfAllTasksDone(existing.storyId)
     }
     return deleted
@@ -147,6 +153,10 @@ export class TaskService {
       startDate: new Date(),
       endDate: null,
     })
+    if (updated) {
+      await notificationService.notifyUserAssignedToTask(updated, assigneeUserId)
+      await notificationService.notifyTaskStatusChanged(updated, existing.state)
+    }
     return updated
   }
 
@@ -173,6 +183,7 @@ export class TaskService {
       endDate: new Date(),
     })
     if (updated) {
+      await notificationService.notifyTaskStatusChanged(updated, existing.state)
       await this.syncStoryStateIfAllTasksDone(updated.storyId)
     }
     return updated

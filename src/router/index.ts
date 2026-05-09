@@ -28,6 +28,16 @@ const router = createRouter({
       name: 'task-detail',
       component: () => import('../views/TaskDetailView.vue'),
     },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: () => import('../views/NotificationListView.vue'),
+    },
+    {
+      path: '/notifications/:id',
+      name: 'notification-detail',
+      component: () => import('../views/NotificationDetailView.vue'),
+    },
   ],
 })
 

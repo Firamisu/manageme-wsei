@@ -2,21 +2,28 @@
 import { onMounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useProjectStore } from './stores/project'
+import { useNotificationStore } from './stores/notification'
 import { useThemeStore } from './stores/theme'
 import { useUserStore, formatUserName } from './stores/user'
 
 const projectStore = useProjectStore()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
+const notificationStore = useNotificationStore()
 const route = useRoute()
 
 onMounted(() => {
   projectStore.fetchProjects()
   userStore.fetchUsers()
+  notificationStore.fetchNotifications()
 })
 
 function navClass(path: string): string {
-  return route.path === path ? 'app-nav-item app-nav-item-active' : 'app-nav-item'
+  const isActive =
+    path === '/notifications'
+      ? route.path.startsWith('/notifications')
+      : route.path === path
+  return isActive ? 'app-nav-item app-nav-item-active' : 'app-nav-item'
 }
 </script>
 
@@ -96,6 +103,27 @@ function navClass(path: string): string {
             />
           </svg>
         </button>
+        <RouterLink
+          to="/notifications"
+          class="relative flex h-8 w-8 items-center justify-center rounded text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+          aria-label="Notifications"
+          title="Notifications"
+        >
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+          <span
+            v-if="notificationStore.unreadCount > 0"
+            class="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-app-danger px-1 text-[10px] font-bold text-white"
+          >
+            {{ notificationStore.unreadCount > 9 ? '9+' : notificationStore.unreadCount }}
+          </span>
+        </RouterLink>
         <div v-if="userStore.currentUser" class="hidden items-center gap-2 sm:flex">
           <span class="text-white/70">Logged in</span>
           <span class="font-medium text-white">
@@ -149,6 +177,17 @@ function navClass(path: string): string {
               />
             </svg>
             Projects
+          </RouterLink>
+          <RouterLink to="/notifications" :class="navClass('/notifications')">
+            <svg class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+            Notifications
           </RouterLink>
           <RouterLink to="/stories" :class="navClass('/stories')">
             <svg class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">

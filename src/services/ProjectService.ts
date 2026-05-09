@@ -1,6 +1,7 @@
 import type { Project, CreateProjectInput, UpdateProjectInput } from '../types/Project'
 import type { IProjectRepository } from '../repositories/IProjectRepository'
 import { LocalStorageProjectRepository } from '../repositories/LocalStorageProjectRepository'
+import { notificationService } from './NotificationService'
 
 export class ProjectService {
   private repository: IProjectRepository
@@ -13,7 +14,9 @@ export class ProjectService {
     if (!input.name || input.name.trim() === '') {
       throw new Error('Project name is required')
     }
-    return this.repository.create(input)
+    const project = await this.repository.create(input)
+    await notificationService.notifyProjectCreated(project)
+    return project
   }
 
   async getAllProjects(): Promise<Project[]> {
