@@ -3,3 +3,5 @@ dist/
 tasks/
 ARCHITECTURE.md
 src/__tests__/
+.eslintcache
+docs/

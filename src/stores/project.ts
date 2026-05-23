@@ -6,16 +6,10 @@ import { projectService } from '../services/ProjectService'
 const ACTIVE_PROJECT_KEY = 'activeProjectId'
 
 function readActiveProjectId(): string | null {
-  if (typeof localStorage?.getItem !== 'function') {
-    return null
-  }
   return localStorage.getItem(ACTIVE_PROJECT_KEY)
 }
 
 function writeActiveProjectId(id: string | null): void {
-  if (typeof localStorage?.setItem !== 'function') {
-    return
-  }
   if (id) {
     localStorage.setItem(ACTIVE_PROJECT_KEY, id)
   } else {
@@ -38,7 +32,7 @@ export const useProjectStore = defineStore('project', () => {
     if (
       activeProjectId.value &&
       !projects.value.some((p) => p.id === activeProjectId.value)
-    ) {
+    ) { 
       activeProjectId.value = null
       writeActiveProjectId(null)
     }
@@ -97,3 +91,4 @@ export const useProjectStore = defineStore('project', () => {
     createProject,
   }
 })
+ 

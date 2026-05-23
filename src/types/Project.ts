@@ -8,3 +8,5 @@ export interface Project {
 
 export type CreateProjectInput = Omit<Project, 'id' | 'createdAt' | 'updatedAt'>
 export type UpdateProjectInput = Partial<CreateProjectInput>
+
+

@@ -30,9 +30,6 @@ export const useThemeStore = defineStore('theme', () => {
   }
 
   function startSystemListener(): void {
-    if (typeof window === 'undefined') {
-      return
-    }
     mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     mediaQuery.addEventListener('change', onSystemThemeChange)
   }

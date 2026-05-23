@@ -4,16 +4,10 @@ export type ThemePreference = ThemeMode | 'system'
 const STORAGE_KEY = 'theme'
 
 export function getSystemTheme(): ThemeMode {
-  if (typeof window === 'undefined') {
-    return 'light'
-  }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 export function readThemePreference(): ThemePreference {
-  if (typeof localStorage?.getItem !== 'function') {
-    return 'system'
-  }
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored === 'light' || stored === 'dark') {
     return stored
@@ -22,16 +16,10 @@ export function readThemePreference(): ThemePreference {
 }
 
 export function writeThemePreference(preference: ThemeMode): void {
-  if (typeof localStorage?.setItem !== 'function') {
-    return
-  }
   localStorage.setItem(STORAGE_KEY, preference)
 }
 
 export function applyThemePreference(preference: ThemePreference): void {
-  if (typeof document === 'undefined') {
-    return
-  }
   const html = document.documentElement
   html.classList.remove('light', 'dark')
   if (preference === 'light') {

@@ -1,4 +1,4 @@
-import type { Project, CreateProjectInput, UpdateProjectInput } from '../types/Project'
+  import type { Project, CreateProjectInput, UpdateProjectInput } from '../types/Project'
 import type { IProjectRepository } from '../repositories/IProjectRepository'
 import { LocalStorageProjectRepository } from '../repositories/LocalStorageProjectRepository'
 import { notificationService } from './NotificationService'

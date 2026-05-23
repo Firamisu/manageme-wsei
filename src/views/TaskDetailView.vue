@@ -24,7 +24,6 @@ const saving = ref(false)
 const selectedState = ref<TaskState>('todo')
 const assigneeId = ref('')
 
-const priorities: TaskPriority[] = ['low', 'medium', 'high']
 const states: TaskState[] = ['todo', 'doing', 'done']
 
 const taskId = computed(() => route.params.id as string)

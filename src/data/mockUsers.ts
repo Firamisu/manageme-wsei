@@ -11,13 +11,13 @@ export const MOCK_USERS: User[] = [
   },
   {
     id: 'user-developer',
-    firstName: 'Dana',
+    firstName: 'Rajesh',
     lastName: 'Developer',
     role: 'developer',
   },
   {
     id: 'user-devops',
-    firstName: 'Omar',
+    firstName: 'Zbychu',
     lastName: 'DevOps',
     role: 'devops',
   },

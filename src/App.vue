@@ -31,7 +31,7 @@ function navClass(path: string): string {
   <div class="flex min-h-screen flex-col bg-app-surface">
     <header class="flex h-14 shrink-0 items-center bg-app-primary-dark px-4 text-white shadow-md">
       <RouterLink
-        to="/"
+        to="/projects"
         class="flex items-center gap-2 text-base font-semibold tracking-tight hover:text-white/90"
       >
         <span
@@ -43,13 +43,6 @@ function navClass(path: string): string {
       </RouterLink>
 
       <nav class="ml-8 hidden items-center gap-1 sm:flex">
-        <RouterLink
-          to="/"
-          class="rounded px-3 py-1.5 text-sm text-white/85 transition-colors hover:bg-white/10 hover:text-white"
-          active-class="!bg-white/15 !text-white font-medium"
-        >
-          Dashboard
-        </RouterLink>
         <RouterLink
           to="/projects"
           class="rounded px-3 py-1.5 text-sm text-white/85 transition-colors hover:bg-white/10 hover:text-white"
@@ -156,17 +149,6 @@ function navClass(path: string): string {
           <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-app-text-subtle">
             Menu
           </p>
-          <RouterLink to="/" :class="navClass('/')">
-            <svg class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            Dashboard
-          </RouterLink>
           <RouterLink to="/projects" :class="navClass('/projects')">
             <svg class="h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
