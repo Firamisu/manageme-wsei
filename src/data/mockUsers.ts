@@ -4,8 +4,8 @@ export const LOGGED_IN_USER_ID = 'user-admin'
 
 export const MOCK_USERS: User[] = [
   {
-    id: LOGGED_IN_USER_ID,
-    firstName: 'Anna',
+    id: 'user-admin',
+    firstName: 'Genowefy',
     lastName: 'Admin',
     role: 'admin',
   },

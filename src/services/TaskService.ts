@@ -101,7 +101,7 @@ export class TaskService {
     await this.validateStateRules(normalized)
 
     const previousState = existing.state
-    const patch = this.toUpdatePatch(existing, normalized, input)
+    const patch = this.toUpdatePatch(existing, normalized)
     const updated = await this.repository.update(id, patch)
     if (updated) {
       await notificationService.notifyTaskStatusChanged(updated, previousState)
@@ -346,7 +346,6 @@ export class TaskService {
   }
 
   private toUpdatePatch(
-    existing: Task,
     normalized: Task,
     input: UpdateTaskInput,
   ): UpdateTaskInput {

@@ -5,3 +5,4 @@ ARCHITECTURE.md
 src/__tests__/
 .eslintcache
 docs/
+.DS_Store
